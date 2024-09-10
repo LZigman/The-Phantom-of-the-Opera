@@ -3,10 +3,10 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    private InputAction moveAction;
-    private InputAction jumpAction;
-    private CharacterController controller;
-    private Vector3 playerVelocity;
+    private Vector2 inputAmount;
+    private Vector3 targetForwardDirection;
+    private Vector3 movementDirection;
+    private Vector3 smoothInputMovement;
     private float xRot;
     private bool onGround;
     private Rigidbody rb;
@@ -16,67 +16,51 @@ public class Player : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 20f;
     [SerializeField] private float jumpForce = 2.5f;
-    [SerializeField] private float gravity = -9.81f;
-
     
     private void Start()
     {
-        controller = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
-        
-        // Find the references to the "Move" and "Jump" actions
-        moveAction = InputSystem.actions.FindAction("Move");
-        jumpAction = InputSystem.actions.FindAction("Jump");
+    }
+    
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        // read the value for the "move" action each event call
+        inputAmount = context.ReadValue<Vector2>();
+        movementDirection = new Vector3(inputAmount.x, 0, inputAmount.y);
+    }
+    
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed && onGround)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
     }
     
     #region Performing
 
     private void FixedUpdate()
     {
-        Vector2 moveValue = moveAction.ReadValue<Vector2>();
-        // your movement code here
-
-        Movement(moveValue);
-        Rotation(moveValue);
-        Jump();
+        Movement();
+        Rotation();
     }
 
     #endregion
 
     #region Movement
 
-    private void Movement(Vector2 input)
+    private void Movement()
     {
-        // playerVelocity = moveDirection * moveSpeed;
-        Vector3 moveDir = Vector3.zero;
-        moveDir.x = input.x;
-        moveDir.z = input.y;
-        
-        playerVelocity.y += gravity * Time.deltaTime;
-        
-        if (controller.isGrounded && playerVelocity.y <  0)
-        {
-            playerVelocity.y -= 1f;
-        }
-        
-        controller.Move((transform.TransformDirection(moveDir) * moveSpeed + playerVelocity) * Time.deltaTime);
+        smoothInputMovement = Vector3.Lerp(smoothInputMovement, movementDirection, Time.deltaTime * moveSpeed);
+        rb.MovePosition(transform.position + smoothInputMovement);
     }
 
-    private void Rotation(Vector2 input)
-    {
-        Vector3 targetForwardDirection = new Vector3(input.x, 0, input.y);
+    private void Rotation()
+    { 
+        Debug.Log(movementDirection);
+        targetForwardDirection = movementDirection;
         transform.rotation = Quaternion.Slerp
         (transform.rotation, Quaternion.LookRotation(targetForwardDirection), Time.deltaTime * rotationSpeed);
-    }
-
-    private void Jump()
-    {
-        if (!onGround) return;
-
-        if (jumpAction.IsPressed())
-        {
-            playerVelocity.y = Mathf.Sqrt(jumpForce * -3f * gravity);
-        }
     }
 
     #endregion
@@ -85,12 +69,18 @@ public class Player : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        SetJumpState(true);
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            SetJumpState(true);
+        }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        SetJumpState(false);
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            SetJumpState(false);
+        }
     }
 
     private void SetJumpState(bool grounded)
