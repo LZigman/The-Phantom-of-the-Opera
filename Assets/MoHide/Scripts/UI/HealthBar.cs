@@ -7,7 +7,7 @@ public class HealthBar : MonoBehaviour
     private Image _slider;
 
     [Header("Player")]
-    public Player player;
+    public PlayerMoHide player;
 
     [Header("Slider parts")]
     public Image HeartImage;
