@@ -13,6 +13,7 @@ public class EnemyFieldOfView : MonoBehaviour
     public float meshResolution;
     public MeshFilter viewMeshFilter;
     Mesh viewMesh;
+    private PlayerDetection playerDetection;
 
     private void Start()
     {
@@ -20,6 +21,7 @@ public class EnemyFieldOfView : MonoBehaviour
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
         StartCoroutine(FindPlayerWithDelay(0.5f));
+        playerDetection = GetComponent<PlayerDetection>();
     }
     IEnumerator FindPlayerWithDelay(float delay)
     {
@@ -93,7 +95,9 @@ public class EnemyFieldOfView : MonoBehaviour
                 {
                     Debug.Log("Player visible!");
                     //visibleTarget = target;
-                }
+                    playerDetection.PlayerDetected(target.gameObject);
+
+				}
             }
         }
     }
