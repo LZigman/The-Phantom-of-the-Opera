@@ -6,16 +6,13 @@ using UnityEngine.AI;
 
 public enum NPCState
 {
-	random,
 	frozen,
-	distracted,
 	patrol
 }
 
 public class EnemyPatrolMove : MonoBehaviour
 {
 	public NPCState myState;
-	[SerializeField] NPCState defaultState;
 	NavMeshAgent myAgent;
 
 	[SerializeField] Transform[] patrolPositions;
@@ -28,7 +25,6 @@ public class EnemyPatrolMove : MonoBehaviour
 	{
 		myAgent = GetComponent<NavMeshAgent>();
 		myAgent.updateRotation = true;
-		myState = defaultState;
 		Patrol();
 	}
 

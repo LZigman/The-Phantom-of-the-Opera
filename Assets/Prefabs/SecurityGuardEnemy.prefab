@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 0e626afb82b8ac147b0b00d8809a76ba, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -94,12 +94,10 @@ GameObject:
   - component: {fileID: 5864167148166971054}
   - component: {fileID: 5674844352524120004}
   - component: {fileID: 7443889853788288168}
-  - component: {fileID: 3814141870344826436}
   - component: {fileID: 4580913111242966362}
   - component: {fileID: 8525769597798118407}
   - component: {fileID: 3696619723438973163}
   - component: {fileID: 8579767011928408714}
-  - component: {fileID: 1355010454850409310}
   m_Layer: 0
   m_Name: SecurityGuardEnemy
   m_TagString: Untagged
@@ -173,33 +171,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!54 &3814141870344826436
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2566736572549850829}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!136 &4580913111242966362
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -257,8 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2e5342409f26d34797d17f61cbe82d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myState: 0
-  defaultState: 3
+  myState: 1
   patrolPositions:
   - {fileID: 0}
   - {fileID: 0}
@@ -281,25 +251,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewRadius: 10
   viewAngle: 90
+  viewFrequency: 0.25
   playerMask:
     serializedVersion: 2
     m_Bits: 128
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 64
-  visibleTarget: {fileID: 0}
-  meshResolution: 1
+    m_Bits: 192
+  meshResolution: 15
   viewMeshFilter: {fileID: 8246096182135343054}
---- !u!114 &1355010454850409310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2566736572549850829}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a9225852666e90469b07b3d58765169, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyType: 1
+  idleColor: {r: 0.45490196, g: 0.99215686, b: 0.67058825, a: 0.5882353}
+  alertColor: {r: 0.9590621, g: 0.99215686, b: 0.45490193, a: 0.5882353}
+  disguiseIRecognize: 2
+  timeToNotice: 3
+  velocityThreshold: 0.3

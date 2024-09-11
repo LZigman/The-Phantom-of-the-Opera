@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class Player : MonoBehaviour
 {
@@ -10,7 +11,11 @@ public class Player : MonoBehaviour
     private float xRot;
     private bool onGround;
     private bool isSprinting, isCrouching;
-    public bool isInteracting;
+
+    //Morphing
+    bool isCloseToMorph;
+    DisguiseType closeMorphType;
+    PlayerMorfing morfScript;
     
     [Header("Player components")]
     [SerializeField] private Rigidbody rb;
@@ -44,13 +49,14 @@ public class Player : MonoBehaviour
         targetForwardDirection = transform.forward;
         rb = GetComponent<Rigidbody>();
         moveSpeed = defaultMoveSpeed;
+        morfScript = GetComponent<PlayerMorfing>();
     }
     
     public void OnMove(InputAction.CallbackContext context)
     {
         // read the value for the "move" action each event call
         inputAmount = context.ReadValue<Vector2>();
-        movementDirection = new Vector3(inputAmount.x, 0, inputAmount.y);
+        movementDirection = new Vector3(inputAmount.x, rb.velocity.y, inputAmount.y);
     }
     
     public void OnJump(InputAction.CallbackContext context)
@@ -77,10 +83,10 @@ public class Player : MonoBehaviour
     
     public void OnInteract (InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (context.phase == InputActionPhase.Performed && isCloseToMorph)
         {
-            isInteracting = true;
-            Debug.Log("Interacting!");
+            isCloseToMorph = false;
+            morfScript.MorfInto(closeMorphType);
         }
     }
     
@@ -116,6 +122,12 @@ public class Player : MonoBehaviour
         }
         Debug.Log($"moveSpeed: {moveSpeed}");
 	}
+
+    public void SetCloseToMorph(bool isClose, DisguiseType morphType)
+    {
+        isCloseToMorph = isClose;
+        closeMorphType = morphType;
+    }
     
     #region Performing
 
@@ -136,13 +148,16 @@ public class Player : MonoBehaviour
     private void Movement()
     {
         // move player by moveSpeed
-        rb.position += movementDirection * (moveSpeed * Time.fixedDeltaTime);
+        //rb.position += movementDirection * (moveSpeed * Time.fixedDeltaTime);
+
+        rb.velocity = movementDirection * moveSpeed;
     }
 
     private void Rotation()
-    { 
+    {
         if (movementDirection != Vector3.zero)
             targetForwardDirection = movementDirection;
+
         rb.rotation = Quaternion.Slerp
             (rb.rotation, Quaternion.LookRotation(targetForwardDirection), Time.deltaTime * rotationSpeed);
     }

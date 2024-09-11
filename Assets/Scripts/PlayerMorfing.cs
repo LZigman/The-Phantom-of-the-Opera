@@ -2,38 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MorfObjects
-{
-    BackstageBox,
-    SecurityGuard,
-    TrashCan,
-	Default
-}
-
 public class PlayerMorfing : MonoBehaviour
 {
-    public MorfObjects currentMorf;
+	public DisguiseType currentDisguise;
 	[SerializeField] private MeshFilter mf;
 	[SerializeField] private Mesh BackstageBoxMesh, SecurityGuardMesh, TrashCanMesh;
 
 	private void Start()
 	{
-		currentMorf = MorfObjects.Default;
+		currentDisguise = DisguiseType.Undisguised;
 	}
 
-	public void MorfInto (MorfObjects morfObject)
+	public void MorfInto (DisguiseType morfObject)
 	{
-		if (morfObject == MorfObjects.BackstageBox)
+		currentDisguise = morfObject;
+
+        if (morfObject == DisguiseType.BackstageBox)
 		{
 			mf.mesh = BackstageBoxMesh;
-			Debug.Log("Morfed into backstage box!");
+            Debug.Log("Morfed into backstage box!");
 		}
-		else if (morfObject == MorfObjects.SecurityGuard)
+		else if (morfObject == DisguiseType.SecurityGuard)
 		{
 			mf.mesh = SecurityGuardMesh;
 			Debug.Log("Morfed into backstage box!");
 		}
-		else if (morfObject == MorfObjects.TrashCan)
+		else if (morfObject == DisguiseType.TrashCan)
 		{
 			mf.mesh = TrashCanMesh;
 			Debug.Log("Morfed into backstage box!");
