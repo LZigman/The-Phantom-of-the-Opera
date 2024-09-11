@@ -23,6 +23,7 @@ public class EnemyFieldOfView : MonoBehaviour
     public float timeToNotice;
     public float velocityThreshold;
     float noticeTimer;
+    public EnemyPatrolMove patrolScript;
 
     private void Start()
     {
@@ -30,7 +31,7 @@ public class EnemyFieldOfView : MonoBehaviour
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
         viewConeMaterial = viewMeshFilter.GetComponent<MeshRenderer>().material;
-
+        patrolScript = GetComponent<EnemyPatrolMove>();
         InvokeRepeating(nameof(FindVisibleTargets), viewFrequency, viewFrequency);
     }
 
@@ -145,7 +146,8 @@ public class EnemyFieldOfView : MonoBehaviour
     {
         noticeTimer = 0;
         viewConeMaterial.SetColor("_BaseColor", idleColor);
-    }
+		patrolScript.StopPatroling(false);
+	}
 
     private void CheckDisguise(Transform player)
     {
@@ -156,6 +158,7 @@ public class EnemyFieldOfView : MonoBehaviour
         {
             noticeTimer += viewFrequency;
             viewConeMaterial.SetColor("_BaseColor", alertColor);
+            patrolScript.StopPatroling(true);
         }
         else
         {

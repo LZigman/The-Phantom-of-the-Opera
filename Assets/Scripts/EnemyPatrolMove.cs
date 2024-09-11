@@ -39,6 +39,11 @@ public class EnemyPatrolMove : MonoBehaviour
 		}
 	}
 
+	public void StopPatroling (bool toggle)
+	{
+		myAgent.isStopped = toggle;
+	}
+
 	private void Patrol()
 	{
 		if (Vector3.Distance(transform.position, patrolPositions[indexPatrolPosition].position) > patrolStopDistance)
