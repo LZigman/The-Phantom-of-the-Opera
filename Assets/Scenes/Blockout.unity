@@ -1510,6 +1510,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8403909616925632106, guid: 3139b16c80b848d46ad71946a30b6c9d,
         type: 3}
+      propertyPath: rotationSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403909616925632106, guid: 3139b16c80b848d46ad71946a30b6c9d,
+        type: 3}
       propertyPath: patrolPositions.Array.data[0]
       value: 
       objectReference: {fileID: 1736007857}
@@ -1707,6 +1712,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3696619723438973163, guid: 4376d374323383c448d879abfc4f2684,
         type: 3}
+      propertyPath: rotationSpeed
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3696619723438973163, guid: 4376d374323383c448d879abfc4f2684,
+        type: 3}
       propertyPath: patrolPositions.Array.data[0]
       value: 
       objectReference: {fileID: 631007897}
@@ -1774,6 +1784,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8579767011928408714, guid: 4376d374323383c448d879abfc4f2684,
+        type: 3}
+      propertyPath: viewFrequency
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8579767011928408714, guid: 4376d374323383c448d879abfc4f2684,
         type: 3}
@@ -2116,6 +2131,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5056861440559548895, guid: 8edf5c84a9bbe88459b68b8cddc71a04,
         type: 3}
+      propertyPath: rotationSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056861440559548895, guid: 8edf5c84a9bbe88459b68b8cddc71a04,
+        type: 3}
       propertyPath: patrolPositions.Array.data[0]
       value: 
       objectReference: {fileID: 1119844093}
@@ -2173,6 +2193,11 @@ PrefabInstance:
         type: 3}
       propertyPath: alertColor.r
       value: 0.9590621
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858811900187965201, guid: 8edf5c84a9bbe88459b68b8cddc71a04,
+        type: 3}
+      propertyPath: viewFrequency
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5858811900187965201, guid: 8edf5c84a9bbe88459b68b8cddc71a04,
         type: 3}
