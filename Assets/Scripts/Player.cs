@@ -20,8 +20,10 @@ public class Player : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float speedModifier = 0.5f;
     private float moveSpeed;
-    
-    private void Start()
+
+    public bool isInteracting;
+
+	private void Start()
     {
         targetForwardDirection = transform.forward;
         rb = GetComponent<Rigidbody>();
@@ -59,6 +61,7 @@ public class Player : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed)
         {
+            isInteracting = true;
             Debug.Log("Interacting!");
         }
     }

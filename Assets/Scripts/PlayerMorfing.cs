@@ -13,46 +13,30 @@ public enum MorfObjects
 public class PlayerMorfing : MonoBehaviour
 {
     public MorfObjects currentMorf;
+	[SerializeField] private MeshFilter mf;
+	[SerializeField] private Mesh BackstageBoxMesh, SecurityGuardMesh, TrashCanMesh;
 
-	private void Update()
+	private void Start()
 	{
-		if (Input.GetKeyDown(KeyCode.Alpha1))
-		{
-			currentMorf = MorfObjects.BackstageBox;
-			Debug.Log($"Current morf: {currentMorf}");
-		}
-		if (Input.GetKeyDown(KeyCode.Alpha2))
-		{
-			currentMorf = MorfObjects.SecurityGuard;
-			Debug.Log($"Current morf: {currentMorf}");
-		}
-		if (Input.GetKeyDown(KeyCode.Alpha3))
-		{
-			currentMorf = MorfObjects.TrashCan;
-			Debug.Log($"Current morf: {currentMorf}");
-		}
-		if (Input.GetKeyDown(KeyCode.Alpha0))
-		{
-			currentMorf = MorfObjects.TrashCan;
-			Debug.Log($"Current morf: {currentMorf}");
-		}
+		currentMorf = MorfObjects.Default;
+	}
 
-		// movement input
-		if (Input.GetKey(KeyCode.W))
+	public void MorfInto (MorfObjects morfObject)
+	{
+		if (morfObject == MorfObjects.BackstageBox)
 		{
-			transform.position += Vector3.forward * Time.deltaTime;
+			mf.mesh = BackstageBoxMesh;
+			Debug.Log("Morfed into backstage box!");
 		}
-		if (Input.GetKey(KeyCode.S))
+		else if (morfObject == MorfObjects.SecurityGuard)
 		{
-			transform.position += Vector3.back * Time.deltaTime;
+			mf.mesh = SecurityGuardMesh;
+			Debug.Log("Morfed into backstage box!");
 		}
-		if (Input.GetKey(KeyCode.A))
+		else if (morfObject == MorfObjects.TrashCan)
 		{
-			transform.position += Vector3.left * Time.deltaTime;
-		}
-		if (Input.GetKey(KeyCode.D))
-		{
-			transform.position += Vector3.right * Time.deltaTime;
+			mf.mesh = TrashCanMesh;
+			Debug.Log("Morfed into backstage box!");
 		}
 	}
 }
