@@ -26,6 +26,10 @@ public class EnemyFieldOfView : MonoBehaviour
     public EnemyPatrolMove patrolScript;
     bool noticeMovement;
 
+    [Header("Notice Meter Drawing")]
+    public GameObject noticeMeter;
+    public Transform noticeMask;
+
     private void Start()
     {
         viewMesh = new Mesh();
@@ -148,6 +152,7 @@ public class EnemyFieldOfView : MonoBehaviour
         noticeTimer = 0;
         viewConeMaterial.SetColor("_BaseColor", idleColor);
         noticeMovement = false;
+        noticeMeter.SetActive(false);
 		patrolScript.StopPatroling(false);
 	}
 
@@ -163,6 +168,8 @@ public class EnemyFieldOfView : MonoBehaviour
         {
             noticeTimer += viewFrequency;
             viewConeMaterial.SetColor("_BaseColor", alertColor);
+            noticeMeter.SetActive(true);
+            noticeMeter.transform.forward = Camera.main.transform.forward; // exclamation meter faces camera, might not need this depending on camera rotation
             patrolScript.StopPatroling(true);
         }
         else
@@ -175,5 +182,7 @@ public class EnemyFieldOfView : MonoBehaviour
             noticeTimer = timeToNotice;
             Debug.Log("Game Over");
         }
+
+        noticeMask.localPosition = new Vector3(0, (noticeTimer / timeToNotice), 0); //exclamation meter fill
     }
 }
