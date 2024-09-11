@@ -10,16 +10,22 @@ public class Player : MonoBehaviour
     private float xRot;
     private bool onGround;
     private Rigidbody rb;
+    private bool isSprinting, isCrouching;
 
     [Header("Character stats")]
     public float health = 100;
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float defaultMoveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 20f;
     [SerializeField] private float jumpForce = 2.5f;
+    [Range(0f, 1f)]
+    [SerializeField] private float speedModifier = 0.5f;
+    private float moveSpeed;
     
     private void Start()
     {
+        targetForwardDirection = transform.forward;
         rb = GetComponent<Rigidbody>();
+        moveSpeed = defaultMoveSpeed;
     }
     
     public void OnMove(InputAction.CallbackContext context)
@@ -36,7 +42,57 @@ public class Player : MonoBehaviour
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
-    
+    public void OnSprint (InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            isSprinting = !isSprinting;
+            if (isSprinting == true && isCrouching == true)
+            {
+                isCrouching = false;
+            }
+			Debug.Log("Sprint pressed!");
+            ApplySpeedModifier();
+		}
+    }
+    public void OnInteract (InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            Debug.Log("Interacting!");
+        }
+    }
+    public void OnCrouch (InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            isCrouching = !isCrouching;
+            if (isCrouching == true && isSprinting == true)
+            {
+                isSprinting = false;
+            }
+            Debug.Log("Crouch pressed!");
+    		ApplySpeedModifier();
+        }
+	}
+    private void ApplySpeedModifier ()
+    {
+		if (isCrouching == true)
+		{
+			moveSpeed = defaultMoveSpeed * speedModifier;
+            Debug.Log("Crouching!");
+		}
+		if (isSprinting == true)
+		{
+			moveSpeed = defaultMoveSpeed / speedModifier;
+            Debug.Log("Sprinting!");
+		}
+        else if ((isSprinting == false && isCrouching == false))
+        {
+            moveSpeed = defaultMoveSpeed;
+        }
+        Debug.Log($"moveSpeed: {moveSpeed}");
+	}
     #region Performing
 
     private void FixedUpdate()
@@ -51,16 +107,20 @@ public class Player : MonoBehaviour
 
     private void Movement()
     {
-        smoothInputMovement = Vector3.Lerp(smoothInputMovement, movementDirection, Time.deltaTime * moveSpeed);
+        /*smoothInputMovement = Vector3.Lerp(smoothInputMovement, movementDirection, Time.fixedDeltaTime * moveSpeed);
         rb.MovePosition(transform.position + smoothInputMovement);
-    }
+        Debug.Log($"pos to move: {transform.position + smoothInputMovement}");*/
+        
+        rb.position += moveSpeed * movementDirection * Time.fixedDeltaTime;
+	}
 
     private void Rotation()
     { 
-        Debug.Log(movementDirection);
-        targetForwardDirection = movementDirection;
-        transform.rotation = Quaternion.Slerp
-        (transform.rotation, Quaternion.LookRotation(targetForwardDirection), Time.deltaTime * rotationSpeed);
+        
+        if (movementDirection != Vector3.zero)
+            targetForwardDirection = movementDirection;
+        rb.rotation = Quaternion.Slerp
+        (rb.rotation, Quaternion.LookRotation(targetForwardDirection), Time.deltaTime * rotationSpeed);
     }
 
     #endregion
