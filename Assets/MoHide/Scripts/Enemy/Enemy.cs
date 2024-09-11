@@ -120,15 +120,15 @@ public class Enemy : MonoBehaviour
         AudioSource.Play();
 
         //If target have component "HidingCharacter" then enemy takes lives
-        if(_target.TryGetComponent(typeof(Player), out Component component))
+        if(_target.TryGetComponent(typeof(PlayerMoHide), out Component component))
         {
-            component.GetComponent<Player>().Health -= Damage;
+            component.GetComponent<PlayerMoHide>().Health -= Damage;
         }
         else//If player play as prop
         {
-            if (_target.parent.GetChild(0).TryGetComponent(typeof(Player), out Component childComponent))
+            if (_target.parent.GetChild(0).TryGetComponent(typeof(PlayerMoHide), out Component childComponent))
             {
-                childComponent.GetComponent<Player>().Health -= Damage;
+                childComponent.GetComponent<PlayerMoHide>().Health -= Damage;
             }
         }
 

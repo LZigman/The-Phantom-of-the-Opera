@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using KeyMouse.MoHide;
 
-public class Player : MonoBehaviour
+public class PlayerMoHide : MonoBehaviour
 {
     [SerializeField] private new Transform camera;
 
