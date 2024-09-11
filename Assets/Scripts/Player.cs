@@ -29,10 +29,6 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject deathEffect;
     [SerializeField] private float deathTimeScaler = 0.2f;
     
-    [Header("Audio")]
-    [SerializeField] private AudioSource playerAudioSource;
-    [SerializeField] private AudioClip deathClip;
-    
     private static readonly int Jump = Animator.StringToHash(JumpAnimationVariable);
     private static readonly int Move = Animator.StringToHash(MoveAmountAnimationVariable);
     private const string MoveAmountAnimationVariable = "Move amount";
@@ -51,6 +47,7 @@ public class Player : MonoBehaviour
         // read the value for the "move" action each event call
         inputAmount = context.ReadValue<Vector2>();
         movementDirection = new Vector3(inputAmount.x, 0, inputAmount.y);
+        AudioManager.Instance.PlaySfx("Walk");
     }
     
     public void OnJump(InputAction.CallbackContext context)
@@ -66,7 +63,7 @@ public class Player : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             isSprinting = !isSprinting;
-            if (isSprinting == true && isCrouching == true)
+            if (isSprinting && isCrouching)
             {
                 isCrouching = false;
             }
@@ -89,7 +86,7 @@ public class Player : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             isCrouching = !isCrouching;
-            if (isCrouching == true && isSprinting == true)
+            if (isCrouching && isSprinting)
             {
                 isSprinting = false;
             }
@@ -100,12 +97,12 @@ public class Player : MonoBehaviour
     
     private void ApplySpeedModifier ()
     {
-		if (isCrouching == true)
+		if (isCrouching)
 		{
 			moveSpeed = defaultMoveSpeed * speedModifier;
             Debug.Log("Crouching!");
 		}
-		if (isSprinting == true)
+		if (isSprinting)
 		{
 			moveSpeed = defaultMoveSpeed / speedModifier;
             Debug.Log("Sprinting!");
@@ -185,8 +182,7 @@ public class Player : MonoBehaviour
             gameObject.SetActive(false);
 
             // Play audio clip
-            playerAudioSource.clip = deathClip;
-            playerAudioSource.Play();
+            AudioManager.Instance.PlaySfx("Death");
 
             // Instantiate particle death effect
             Destroy(Instantiate(deathEffect, transform.position, Quaternion.Euler(-90, 0, 0)), 2);
