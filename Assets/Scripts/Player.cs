@@ -9,22 +9,38 @@ public class Player : MonoBehaviour
     private Vector3 smoothInputMovement;
     private float xRot;
     private bool onGround;
-    private Rigidbody rb;
     private bool isSprinting, isCrouching;
+    public bool isInteracting;
+    
+    [Header("Player components")]
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private Animator animator;
 
     [Header("Character stats")]
     public float health = 100;
     [SerializeField] private float defaultMoveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 20f;
-    [SerializeField] private float jumpForce = 2.5f;
+    [SerializeField] private float jumpForce = 10f;
     [Range(0f, 1f)]
     [SerializeField] private float speedModifier = 0.5f;
     private float moveSpeed;
-
-    public bool isInteracting;
+    
+    [Header("Death")]
+    [SerializeField] private GameObject deathEffect;
+    [SerializeField] private float deathTimeScaler = 0.2f;
+    
+    [Header("Audio")]
+    [SerializeField] private AudioSource playerAudioSource;
+    [SerializeField] private AudioClip deathClip;
+    
+    private static readonly int Jump = Animator.StringToHash(JumpAnimationVariable);
+    private static readonly int Move = Animator.StringToHash(MoveAmountAnimationVariable);
+    private const string MoveAmountAnimationVariable = "Move amount";
+    private const string JumpAnimationVariable = "Jump";
 
 	private void Start()
     {
+        Time.timeScale = 1;
         targetForwardDirection = transform.forward;
         rb = GetComponent<Rigidbody>();
         moveSpeed = defaultMoveSpeed;
@@ -44,6 +60,7 @@ public class Player : MonoBehaviour
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
+    
     public void OnSprint (InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
@@ -57,6 +74,7 @@ public class Player : MonoBehaviour
             ApplySpeedModifier();
 		}
     }
+    
     public void OnInteract (InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
@@ -65,6 +83,7 @@ public class Player : MonoBehaviour
             Debug.Log("Interacting!");
         }
     }
+    
     public void OnCrouch (InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
@@ -78,6 +97,7 @@ public class Player : MonoBehaviour
     		ApplySpeedModifier();
         }
 	}
+    
     private void ApplySpeedModifier ()
     {
 		if (isCrouching == true)
@@ -96,12 +116,17 @@ public class Player : MonoBehaviour
         }
         Debug.Log($"moveSpeed: {moveSpeed}");
 	}
+    
     #region Performing
 
     private void FixedUpdate()
     {
         Movement();
         Rotation();
+        
+        //Animation
+        float moveAmount = Mathf.Clamp01(Mathf.Abs(inputAmount.x) + Mathf.Abs(inputAmount.y));
+        animator.SetFloat(Move, moveAmount);
     }
 
     #endregion
@@ -110,20 +135,16 @@ public class Player : MonoBehaviour
 
     private void Movement()
     {
-        /*smoothInputMovement = Vector3.Lerp(smoothInputMovement, movementDirection, Time.fixedDeltaTime * moveSpeed);
-        rb.MovePosition(transform.position + smoothInputMovement);
-        Debug.Log($"pos to move: {transform.position + smoothInputMovement}");*/
-        
-        rb.position += moveSpeed * movementDirection * Time.fixedDeltaTime;
-	}
+        // move player by moveSpeed
+        rb.position += movementDirection * (moveSpeed * Time.fixedDeltaTime);
+    }
 
     private void Rotation()
     { 
-        
         if (movementDirection != Vector3.zero)
             targetForwardDirection = movementDirection;
         rb.rotation = Quaternion.Slerp
-        (rb.rotation, Quaternion.LookRotation(targetForwardDirection), Time.deltaTime * rotationSpeed);
+            (rb.rotation, Quaternion.LookRotation(targetForwardDirection), Time.deltaTime * rotationSpeed);
     }
 
     #endregion
@@ -149,6 +170,33 @@ public class Player : MonoBehaviour
     private void SetJumpState(bool grounded)
     {
         this.onGround = grounded;
+        animator.SetBool(Jump, !onGround);
+    }
+
+    #endregion
+    
+    #region Checks
+
+    public void CheckIfDead()
+    {
+        if (health <= 0)
+        {
+            // Disable player
+            gameObject.SetActive(false);
+
+            // Play audio clip
+            playerAudioSource.clip = deathClip;
+            playerAudioSource.Play();
+
+            // Instantiate particle death effect
+            Destroy(Instantiate(deathEffect, transform.position, Quaternion.Euler(-90, 0, 0)), 2);
+
+            // Set time to sloaw down
+            Time.timeScale = deathTimeScaler;
+
+            // Disable this script
+            this.enabled = false;
+        }
     }
 
     #endregion
