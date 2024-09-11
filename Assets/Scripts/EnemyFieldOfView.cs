@@ -24,6 +24,7 @@ public class EnemyFieldOfView : MonoBehaviour
     public float velocityThreshold;
     float noticeTimer;
     public EnemyPatrolMove patrolScript;
+    bool noticeMovement;
 
     private void Start()
     {
@@ -146,6 +147,7 @@ public class EnemyFieldOfView : MonoBehaviour
     {
         noticeTimer = 0;
         viewConeMaterial.SetColor("_BaseColor", idleColor);
+        noticeMovement = false;
 		patrolScript.StopPatroling(false);
 	}
 
@@ -154,7 +156,10 @@ public class EnemyFieldOfView : MonoBehaviour
         PlayerMorfing scriptPlayer = player.GetComponent<PlayerMorfing>();
         Rigidbody pRb = player.GetComponent<Rigidbody>();
 
-        if (scriptPlayer.currentDisguise == DisguiseType.Undisguised || scriptPlayer.currentDisguise == disguiseIRecognize || pRb.velocity.magnitude > velocityThreshold)
+        if(pRb.velocity.magnitude > velocityThreshold)
+            noticeMovement = true;
+
+        if (scriptPlayer.currentDisguise == DisguiseType.Undisguised || scriptPlayer.currentDisguise == disguiseIRecognize || noticeMovement)
         {
             noticeTimer += viewFrequency;
             viewConeMaterial.SetColor("_BaseColor", alertColor);
