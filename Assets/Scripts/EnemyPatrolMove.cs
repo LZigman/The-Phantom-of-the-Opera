@@ -20,7 +20,7 @@ public class EnemyPatrolMove : MonoBehaviour
 	[SerializeField] float waitAtPatrolSeconds, patrolStopDistance;
 	int indexPatrolPosition;
 	[SerializeField] Animator animator;
-	private Transform playerTransform;
+	public Transform playerTransform;
 	[SerializeField] private float rotationSpeed;
 	private void Start()
 	{
@@ -31,6 +31,7 @@ public class EnemyPatrolMove : MonoBehaviour
 
 	private void Update()
 	{
+		Debug.Log(myState.ToString());
 		//animator.SetFloat("Speed", myAgent.velocity.magnitude);
 		if (myState == NPCState.patrol)
 			Patrol();
