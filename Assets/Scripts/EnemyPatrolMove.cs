@@ -20,10 +20,11 @@ public class EnemyPatrolMove : MonoBehaviour
 	[SerializeField] float waitAtPatrolSeconds, patrolStopDistance;
 	[SerializeField] float rotationSpeed = 0.5f;
 	int indexPatrolPosition;
-
 	[SerializeField] Animator animator;
-
+	[SerializeField] private float rotationSpeed;
+  
 	private Transform playerTransform;
+
 	private void Start()
 	{
 		myAgent = GetComponent<NavMeshAgent>();
@@ -33,12 +34,15 @@ public class EnemyPatrolMove : MonoBehaviour
 
 	private void Update()
 	{
+		Debug.Log(myState.ToString());
 		//animator.SetFloat("Speed", myAgent.velocity.magnitude);
 		if (myState == NPCState.patrol)
 			Patrol();
-		if (myState == NPCState.frozen)
+		if (myState == NPCState.looking)
 		{
-			Vector3 lookVectorTowardsPatrolPosition = transform.position - patrolPositions[indexPatrolPosition].position;
+			Vector3 targetDir = playerTransform.position - transform.position;
+			Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, rotationSpeed * Time.deltaTime, 0);
+			transform.rotation = Quaternion.LookRotation(newDir);
 		}
 		if (myState == NPCState.looking)
 		{
