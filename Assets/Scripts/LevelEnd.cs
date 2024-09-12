@@ -2,13 +2,11 @@ using UnityEngine;
 
 public class LevelEnd : MonoBehaviour
 {
-    public GameObject missionComplete;
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            missionComplete.SetActive(true);
+            SceneController.instance.NextLevel();
             AudioManager.Instance.musicSource.Stop();
             AudioManager.Instance.PlaySfx("LevelComplete");
         }
