@@ -135,7 +135,8 @@ public class Player : MonoBehaviour
         
         //Animation
         float moveAmount = Mathf.Clamp01(Mathf.Abs(inputAmount.x) + Mathf.Abs(inputAmount.y));
-        animator.SetFloat(Move, moveAmount);
+        //animator.SetFloat(Move, moveAmount);
+        animator.SetFloat("speed", rb.velocity.magnitude);
     }
 
     #endregion
@@ -144,7 +145,6 @@ public class Player : MonoBehaviour
 
     private void Movement()
     {
-        // move player by moveSpeed
         //rb.position += movementDirection * (moveSpeed * Time.fixedDeltaTime);
 
         rb.velocity = movementDirection * moveSpeed;
@@ -211,4 +211,19 @@ public class Player : MonoBehaviour
     }
 
     #endregion
+
+    public void AnimateVictory()
+    {
+        animator.SetBool("hasWon", true);
+    }
+
+    public void AnimateDefeat()
+    {
+        animator.SetBool("hasLost", true);
+    }
+
+    public void SwitchAnimator(Animator newAnim)
+    {
+        animator = newAnim;
+    }
 }
