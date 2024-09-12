@@ -4,13 +4,10 @@ public class GameOver : MonoBehaviour
 {
     public GameObject gameOver;
 
-    private void OnTriggerEnter(Collider other)
+    public void GameEnd()
     {
-        if (other.CompareTag("Player"))
-        {
-            gameOver.SetActive(true);
-            AudioManager.Instance.musicSource.Stop();
-            AudioManager.Instance.PlaySfx("GameOver");
-        }
+        gameOver.SetActive(true);
+        AudioManager.Instance.musicSource.Stop();
+        AudioManager.Instance.PlaySfx("GameOver");
     }
 }
