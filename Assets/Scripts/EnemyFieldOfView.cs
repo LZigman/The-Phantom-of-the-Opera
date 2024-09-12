@@ -125,9 +125,7 @@ public class EnemyFieldOfView : MonoBehaviour
                 {
                     if (Hit.collider.gameObject.CompareTag("Player"))
                     {
-                        patrolScript.playerTransform = Hit.collider.gameObject.transform;
                         CheckDisguise(targetsInViewRadius[0].transform);
-                        patrolScript.myState = NPCState.looking;
                     }
                     else
                     {

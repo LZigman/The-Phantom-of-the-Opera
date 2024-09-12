@@ -21,7 +21,6 @@ public class EnemyPatrolMove : MonoBehaviour
 	[SerializeField] float rotationSpeed = 0.5f;
 	int indexPatrolPosition;
 	[SerializeField] Animator animator;
-	[SerializeField] private float rotationSpeed;
   
 	private Transform playerTransform;
 
