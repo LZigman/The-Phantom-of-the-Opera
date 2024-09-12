@@ -18,10 +18,13 @@ public class EnemyPatrolMove : MonoBehaviour
 
 	[SerializeField] Transform[] patrolPositions;
 	[SerializeField] float waitAtPatrolSeconds, patrolStopDistance;
+	[SerializeField] float rotationSpeed = 0.5f;
 	int indexPatrolPosition;
 	[SerializeField] Animator animator;
-	public Transform playerTransform;
 	[SerializeField] private float rotationSpeed;
+  
+	private Transform playerTransform;
+
 	private void Start()
 	{
 		myAgent = GetComponent<NavMeshAgent>();
@@ -41,11 +44,19 @@ public class EnemyPatrolMove : MonoBehaviour
 			Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, rotationSpeed * Time.deltaTime, 0);
 			transform.rotation = Quaternion.LookRotation(newDir);
 		}
+		if (myState == NPCState.looking)
+		{
+			Vector3 targetDir = playerTransform.position - transform.position;
+			Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, rotationSpeed * Time.deltaTime, 0);
+			transform.rotation = Quaternion.LookRotation(newDir);
+		}
+		Debug.Log("myState = " + myState);
 	}
 
 	public void StopPatroling (bool toggle)
 	{
 		myAgent.isStopped = toggle;
+		myState = NPCState.patrol;
 	}
 
 	private void Patrol()
@@ -66,7 +77,11 @@ public class EnemyPatrolMove : MonoBehaviour
 			}
 		}
 	}
-
+	public void LookAtPlayer (Transform player)
+	{
+		myState = NPCState.looking;
+		playerTransform = player;
+	}
 	private IEnumerator waitPatrolSpot()
 	{
 		yield return new WaitForSeconds(waitAtPatrolSeconds);

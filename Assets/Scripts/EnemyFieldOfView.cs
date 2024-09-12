@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class EnemyFieldOfView : MonoBehaviour
 {
@@ -166,6 +167,7 @@ public class EnemyFieldOfView : MonoBehaviour
             noticeTimer += viewFrequency;
             viewConeMaterial.SetColor("_BaseColor", alertColor);
             patrolScript.StopPatroling(true);
+            patrolScript.LookAtPlayer(player);
         }
         else
         {
