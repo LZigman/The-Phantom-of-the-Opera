@@ -33,7 +33,8 @@ public class EnemyPatrolMove : MonoBehaviour
 
 	private void Update()
 	{
-		//animator.SetFloat("Speed", myAgent.velocity.magnitude);
+		animator.SetFloat("speed", myAgent.velocity.magnitude);
+
 		if (myState == NPCState.patrol)
 			Patrol();
 		if (myState == NPCState.frozen)
@@ -57,7 +58,9 @@ public class EnemyPatrolMove : MonoBehaviour
 
 	private void Patrol()
 	{
-		if (Vector3.Distance(transform.position, patrolPositions[indexPatrolPosition].position) > patrolStopDistance)
+        animator.SetBool("isNoticing", false);
+
+        if (Vector3.Distance(transform.position, patrolPositions[indexPatrolPosition].position) > patrolStopDistance)
 		{
 			myAgent.SetDestination(patrolPositions[indexPatrolPosition].position);
 			
@@ -75,9 +78,17 @@ public class EnemyPatrolMove : MonoBehaviour
 	}
 	public void LookAtPlayer (Transform player)
 	{
+		animator.SetBool("isNoticing", true);
+
 		myState = NPCState.looking;
 		playerTransform = player;
 	}
+
+	public void PlayerNoticed()
+	{
+        animator.SetBool("hasWon", true);
+    }
+
 	private IEnumerator waitPatrolSpot()
 	{
 		yield return new WaitForSeconds(waitAtPatrolSeconds);

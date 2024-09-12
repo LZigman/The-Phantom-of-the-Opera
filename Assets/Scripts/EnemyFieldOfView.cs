@@ -175,6 +175,7 @@ public class EnemyFieldOfView : MonoBehaviour
         if (noticeTimer >= timeToNotice)
         {
             noticeTimer = timeToNotice;
+            patrolScript.PlayerNoticed();
             Debug.Log("Game Over");
         }
     }
