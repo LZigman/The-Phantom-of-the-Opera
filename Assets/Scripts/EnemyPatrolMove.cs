@@ -7,7 +7,8 @@ using UnityEngine.AI;
 public enum NPCState
 {
 	frozen,
-	patrol
+	patrol,
+	looking
 }
 
 public class EnemyPatrolMove : MonoBehaviour
@@ -18,9 +19,9 @@ public class EnemyPatrolMove : MonoBehaviour
 	[SerializeField] Transform[] patrolPositions;
 	[SerializeField] float waitAtPatrolSeconds, patrolStopDistance;
 	int indexPatrolPosition;
-
 	[SerializeField] Animator animator;
-
+	private Transform playerTransform;
+	[SerializeField] private float rotationSpeed;
 	private void Start()
 	{
 		myAgent = GetComponent<NavMeshAgent>();
@@ -33,9 +34,11 @@ public class EnemyPatrolMove : MonoBehaviour
 		//animator.SetFloat("Speed", myAgent.velocity.magnitude);
 		if (myState == NPCState.patrol)
 			Patrol();
-		if (myState == NPCState.frozen)
+		if (myState == NPCState.looking)
 		{
-			Vector3 lookVectorTowardsPatrolPosition = transform.position - patrolPositions[indexPatrolPosition].position;
+			Vector3 targetDir = playerTransform.position - transform.position;
+			Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, rotationSpeed * Time.deltaTime, 0);
+			transform.rotation = Quaternion.LookRotation(newDir);
 		}
 	}
 

@@ -6,7 +6,8 @@ public class PlayerMorfing : MonoBehaviour
 {
 	public DisguiseType currentDisguise;
 	[SerializeField] private MeshFilter mf;
-	[SerializeField] private Mesh BackstageBoxMesh, SecurityGuardMesh, TrashCanMesh;
+	[SerializeField] private Mesh BackstageBoxMesh, SecurityGuardMesh, TrashCanMesh, defaultMesh;
+	[SerializeField] private float disguiseTimer;
 
 	private void Start()
 	{
@@ -20,17 +21,27 @@ public class PlayerMorfing : MonoBehaviour
         if (morfObject == DisguiseType.BackstageBox)
 		{
 			mf.mesh = BackstageBoxMesh;
-            Debug.Log("Morfed into backstage box!");
+			StartCoroutine(MorfTimer());
+            Debug.Log($"Morfed into {morfObject}!");
 		}
 		else if (morfObject == DisguiseType.SecurityGuard)
 		{
 			mf.mesh = SecurityGuardMesh;
-			Debug.Log("Morfed into backstage box!");
+			StartCoroutine(MorfTimer());
+			Debug.Log($"Morfed into {morfObject}!");
 		}
 		else if (morfObject == DisguiseType.TrashCan)
 		{
 			mf.mesh = TrashCanMesh;
-			Debug.Log("Morfed into backstage box!");
+			StartCoroutine(MorfTimer());
+			Debug.Log($"Morfed into {morfObject}!");
 		}
+	}
+
+	IEnumerator MorfTimer ()
+	{
+		yield return new WaitForSeconds( disguiseTimer );
+		mf.mesh = defaultMesh;
+		currentDisguise = DisguiseType.Undisguised;
 	}
 }

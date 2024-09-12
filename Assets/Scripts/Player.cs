@@ -85,7 +85,7 @@ public class Player : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed && isCloseToMorph)
         {
-            isCloseToMorph = false;
+            //isCloseToMorph = false;
             morfScript.MorfInto(closeMorphType);
         }
     }

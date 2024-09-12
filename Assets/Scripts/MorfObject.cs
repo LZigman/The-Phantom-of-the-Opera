@@ -5,8 +5,12 @@ using UnityEngine;
 public class MorfObject : MonoBehaviour
 {
 	[SerializeField] private DisguiseType objectType;
-
-    private void OnTriggerEnter(Collider other)
+    [SerializeField] private float triggerRadius = 2.25f;
+	private void Start()
+	{
+		GetComponent<SphereCollider>().radius = triggerRadius;
+	}
+	private void OnTriggerEnter(Collider other)
     {
 		if (other.gameObject.CompareTag("Player"))
 		{
