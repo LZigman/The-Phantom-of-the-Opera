@@ -126,6 +126,7 @@ public class EnemyFieldOfView : MonoBehaviour
                     if (Hit.collider.gameObject.CompareTag("Player"))
                     {
                         CheckDisguise(targetsInViewRadius[0].transform);
+                        Debug.Log("Checking disguise!");
                     }
                     else
                     {
@@ -159,7 +160,8 @@ public class EnemyFieldOfView : MonoBehaviour
 
         if(pRb.velocity.magnitude > velocityThreshold)
             noticeMovement = true;
-
+        if (pRb.velocity.magnitude <= velocityThreshold)
+            ResetNotice();
         if (scriptPlayer.currentDisguise == DisguiseType.Undisguised || scriptPlayer.currentDisguise == disguiseIRecognize || noticeMovement)
         {
             noticeTimer += viewFrequency;
