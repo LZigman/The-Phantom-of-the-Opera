@@ -1,43 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class EnemyFieldOfView : MonoBehaviour
 {
+    [Header("FOV Logic")]
     public float viewRadius;
     public float viewAngle;
-
+    public float viewFrequency;
     public LayerMask playerMask;
     public LayerMask obstacleMask;
-    public Transform visibleTarget;
-    public float meshResolution;
+
+    [Header ("Cone Mesh Drawing")]
+    public int meshResolution;
     public MeshFilter viewMeshFilter;
     Mesh viewMesh;
-    private PlayerDetection playerDetection;
+    Material viewConeMaterial;
+    public Color idleColor, alertColor;
+
+    [Header("Notice Logic")]
+    public DisguiseType disguiseIRecognize;
+    public float timeToNotice;
+    public float velocityThreshold;
+    float noticeTimer;
+    public EnemyPatrolMove patrolScript;
+    bool noticeMovement;
 
     private void Start()
     {
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
-        StartCoroutine(FindPlayerWithDelay(0.5f));
-        playerDetection = GetComponent<PlayerDetection>();
+        viewConeMaterial = viewMeshFilter.GetComponent<MeshRenderer>().material;
+        patrolScript = GetComponent<EnemyPatrolMove>();
+        InvokeRepeating(nameof(FindVisibleTargets), viewFrequency, viewFrequency);
     }
-    IEnumerator FindPlayerWithDelay(float delay)
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(delay);
-            FindVisibleTargets();
-        }
-    }
+
 	private void LateUpdate()
 	{
 		DrawFieldOfView();
 	}
 	void DrawFieldOfView()
     {
-        int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
+        int stepCount = meshResolution;
         float stepAngleSize = viewAngle / stepCount;
         List<Vector3> viewPoints = new List<Vector3>();
         for (int i = 0; i < stepCount; i++)
@@ -80,28 +86,6 @@ public class EnemyFieldOfView : MonoBehaviour
         }
     }
 
-    void FindVisibleTargets()
-    {
-        visibleTarget = null;
-        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, playerMask);
-        for (int i = 0; i < targetsInViewRadius.Length; i++)
-        {
-            Transform target = targetsInViewRadius[i].transform;
-            Vector3 dirToTarget = (target.position - transform.position).normalized;
-            if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
-            {
-                float dstToTarget = Vector3.Distance(transform.position, target.position);
-                if (Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask) == false)
-                {
-                    Debug.Log("Player visible!");
-                    //visibleTarget = target;
-                    playerDetection.PlayerDetected(target.gameObject);
-
-				}
-            }
-        }
-    }
-
     public Vector3 DirFromAngle(float angleInDeg, bool isGlobal)
     {
         if (isGlobal == false)
@@ -122,6 +106,79 @@ public class EnemyFieldOfView : MonoBehaviour
             point = _point;
             dist = _dist;
             angle = _angle;
+        }
+    }
+
+    void FindVisibleTargets()
+    {
+        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, playerMask);
+
+        if(targetsInViewRadius.Length > 0)
+        {
+            Vector3 playerDirection = targetsInViewRadius[0].transform.position - transform.position;
+            playerDirection.Normalize();
+
+            if (Vector3.Angle(transform.forward, playerDirection) < viewAngle / 2)
+            {
+                RaycastHit Hit;
+                if (Physics.Raycast(transform.position, playerDirection, out Hit, viewRadius, obstacleMask))
+                {
+                    if (Hit.collider.gameObject.CompareTag("Player"))
+                    {
+                        CheckDisguise(targetsInViewRadius[0].transform);
+                        Debug.Log("Checking disguise!");
+                    }
+                    else
+                    {
+                        ResetNotice();
+                    }
+                }
+            }
+            else
+            {
+                ResetNotice();
+            }
+        }
+        else
+        {
+            ResetNotice();
+        }
+    }
+
+    private void ResetNotice()
+    {
+        noticeTimer = 0;
+        viewConeMaterial.SetColor("_BaseColor", idleColor);
+        noticeMovement = false;
+		patrolScript.StopPatroling(false);
+	}
+
+    private void CheckDisguise(Transform player)
+    {
+        PlayerMorfing scriptPlayer = player.GetComponent<PlayerMorfing>();
+        Rigidbody pRb = player.GetComponent<Rigidbody>();
+
+        if(pRb.velocity.magnitude > velocityThreshold)
+            noticeMovement = true;
+        if (pRb.velocity.magnitude <= velocityThreshold)
+            ResetNotice();
+        if (scriptPlayer.currentDisguise == DisguiseType.Undisguised || scriptPlayer.currentDisguise == disguiseIRecognize || noticeMovement)
+        {
+            noticeTimer += viewFrequency;
+            viewConeMaterial.SetColor("_BaseColor", alertColor);
+            patrolScript.StopPatroling(true);
+            patrolScript.LookAtPlayer(player);
+        }
+        else
+        {
+            ResetNotice();
+        }
+
+        if (noticeTimer >= timeToNotice)
+        {
+            noticeTimer = timeToNotice;
+            patrolScript.PlayerNoticed();
+            Debug.Log("Game Over");
         }
     }
 }

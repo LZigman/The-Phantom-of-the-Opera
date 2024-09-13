@@ -6,46 +6,61 @@ using UnityEngine.AI;
 
 public enum NPCState
 {
-	random,
 	frozen,
-	distracted,
-	patrol
+	patrol,
+	looking
 }
 
 public class EnemyPatrolMove : MonoBehaviour
 {
 	public NPCState myState;
-	[SerializeField] NPCState defaultState;
 	NavMeshAgent myAgent;
 
 	[SerializeField] Transform[] patrolPositions;
 	[SerializeField] float waitAtPatrolSeconds, patrolStopDistance;
+	[SerializeField] float rotationSpeed = 0.5f;
 	int indexPatrolPosition;
 
 	[SerializeField] Animator animator;
 
+	private Transform playerTransform;
 	private void Start()
 	{
 		myAgent = GetComponent<NavMeshAgent>();
 		myAgent.updateRotation = true;
-		myState = defaultState;
 		Patrol();
 	}
 
 	private void Update()
 	{
-		//animator.SetFloat("Speed", myAgent.velocity.magnitude);
+		animator.SetFloat("speed", myAgent.velocity.magnitude);
+
 		if (myState == NPCState.patrol)
 			Patrol();
 		if (myState == NPCState.frozen)
 		{
 			Vector3 lookVectorTowardsPatrolPosition = transform.position - patrolPositions[indexPatrolPosition].position;
 		}
+		if (myState == NPCState.looking)
+		{
+			Vector3 targetDir = playerTransform.position - transform.position;
+			Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, rotationSpeed * Time.deltaTime, 0);
+			transform.rotation = Quaternion.LookRotation(newDir);
+		}
+		Debug.Log("myState = " + myState);
+	}
+
+	public void StopPatroling (bool toggle)
+	{
+		myAgent.isStopped = toggle;
+		myState = NPCState.patrol;
 	}
 
 	private void Patrol()
 	{
-		if (Vector3.Distance(transform.position, patrolPositions[indexPatrolPosition].position) > patrolStopDistance)
+        animator.SetBool("isNoticing", false);
+
+        if (Vector3.Distance(transform.position, patrolPositions[indexPatrolPosition].position) > patrolStopDistance)
 		{
 			myAgent.SetDestination(patrolPositions[indexPatrolPosition].position);
 			
@@ -61,6 +76,18 @@ public class EnemyPatrolMove : MonoBehaviour
 			}
 		}
 	}
+	public void LookAtPlayer (Transform player)
+	{
+		animator.SetBool("isNoticing", true);
+
+		myState = NPCState.looking;
+		playerTransform = player;
+	}
+
+	public void PlayerNoticed()
+	{
+        animator.SetBool("hasWon", true);
+    }
 
 	private IEnumerator waitPatrolSpot()
 	{

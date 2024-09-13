@@ -4,19 +4,25 @@ using UnityEngine;
 
 public class MorfObject : MonoBehaviour
 {
-    [SerializeField] private MorfObjects objectType;
-
-	private void OnTriggerStay(Collider other)
+	[SerializeField] private DisguiseType objectType;
+    [SerializeField] private float triggerRadius = 2.25f;
+	private void Start()
 	{
+		GetComponent<SphereCollider>().radius = triggerRadius;
+	}
+	private void OnTriggerEnter(Collider other)
+    {
 		if (other.gameObject.CompareTag("Player"))
 		{
-			Debug.Log("Player in trigger!");
-			if (other.gameObject.GetComponent<Player>().isInteracting == true)
-			{
-				PlayerMorfing playerMorfing = other.gameObject.GetComponent<PlayerMorfing>();
-				playerMorfing.MorfInto(objectType);
-				other.gameObject.GetComponent<Player>().isInteracting = false;
-			}
-		}
-	}
+			other.gameObject.GetComponent<Player>().SetCloseToMorph(true, objectType);
+        }
+    }
+
+	private void OnTriggerExit(Collider other)
+	{
+        if (other.gameObject.CompareTag("Player"))
+        {
+            other.gameObject.GetComponent<Player>().SetCloseToMorph(false, objectType);
+        }
+    }
 }
