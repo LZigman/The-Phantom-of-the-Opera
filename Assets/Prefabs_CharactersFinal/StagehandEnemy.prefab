@@ -199,7 +199,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &6548854558524193441
@@ -438,7 +438,8 @@ MonoBehaviour:
   - {fileID: 0}
   waitAtPatrolSeconds: 1
   patrolStopDistance: 1
-  animator: {fileID: 0}
+  rotationSpeed: 0.5
+  animator: {fileID: 2317354095423482638}
 --- !u!114 &8053206755355147801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -468,8 +469,6 @@ MonoBehaviour:
   timeToNotice: 3
   velocityThreshold: 0.3
   patrolScript: {fileID: 0}
-  noticeMeter: {fileID: 775471064037935709}
-  noticeMask: {fileID: 7247046361091614159}
 --- !u!1 &7775039091175068255
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,7 +550,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 2
   m_SpriteSortPoint: 0
 --- !u!1001 &8664733827346172264
@@ -625,6 +624,12 @@ PrefabInstance:
 --- !u!4 &1075219974244787606 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8562648410023554302, guid: 27818827e36b9ba4a9d4148bdea052ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 8664733827346172264}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &2317354095423482638 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6347740968753881702, guid: 27818827e36b9ba4a9d4148bdea052ab,
     type: 3}
   m_PrefabInstance: {fileID: 8664733827346172264}
   m_PrefabAsset: {fileID: 0}

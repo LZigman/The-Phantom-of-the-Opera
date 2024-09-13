@@ -15,6 +15,7 @@ public class MorfObject : MonoBehaviour
 		if (other.gameObject.CompareTag("Player"))
 		{
 			other.gameObject.GetComponent<Player>().SetCloseToMorph(true, objectType);
+			UIManager1.Instance.SetMorfIndicator(true);
         }
     }
 
@@ -23,6 +24,7 @@ public class MorfObject : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             other.gameObject.GetComponent<Player>().SetCloseToMorph(false, objectType);
-        }
+			UIManager1.Instance.SetMorfIndicator(true);
+		}
     }
 }

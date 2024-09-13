@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     [Header("Player components")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Animator animator;
+    [SerializeField] private Transform cameraTransform;
 
     [Header("Character stats")]
     public float health = 100;
@@ -52,7 +53,10 @@ public class Player : MonoBehaviour
     {
         // read the value for the "move" action each event call
         inputAmount = context.ReadValue<Vector2>();
-        movementDirection = new Vector3(inputAmount.x, rb.velocity.y, inputAmount.y);
+        //movementDirection = new Vector3(inputAmount.x, rb.velocity.y, inputAmount.y);
+        movementDirection = inputAmount.y * cameraTransform.up + inputAmount.x * cameraTransform.right/* + Vector3.down*/;
+        
+        Debug.Log("movementDirection = " + movementDirection);
         AudioManager.Instance.PlaySfx("Walk");
     }
     
@@ -147,13 +151,15 @@ public class Player : MonoBehaviour
     {
         //rb.position += movementDirection * (moveSpeed * Time.fixedDeltaTime);
 
-        rb.velocity = movementDirection * moveSpeed;
+      //  rb.velocity = movementDirection * moveSpeed;
+        rb.velocity = new Vector3(movementDirection.x * moveSpeed, -1, movementDirection.z * moveSpeed);
+        Debug.Log($"{rb.velocity}");
     }
 
     private void Rotation()
     {
         if (movementDirection != Vector3.zero)
-            targetForwardDirection = movementDirection;
+            targetForwardDirection = movementDirection - Vector3.down;
 
         rb.rotation = Quaternion.Slerp
             (rb.rotation, Quaternion.LookRotation(targetForwardDirection), Time.deltaTime * rotationSpeed);

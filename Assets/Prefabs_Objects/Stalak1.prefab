@@ -63,64 +63,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 90157923234c9174a8c9d55990023a6d, type: 2}
-    - target: {fileID: -1584707930647562085, guid: 77d4609bc5a8757418d02fa57ca25e45,
-        type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 77d4609bc5a8757418d02fa57ca25e45,
         type: 3}
       propertyPath: m_Name
       value: Stalak1
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 77d4609bc5a8757418d02fa57ca25e45,
-        type: 3}
-      propertyPath: m_Layer
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2869965925878235377, guid: 77d4609bc5a8757418d02fa57ca25e45,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 90157923234c9174a8c9d55990023a6d, type: 2}
-    - target: {fileID: 3938487928886459066, guid: 77d4609bc5a8757418d02fa57ca25e45,
-        type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3938487928886459066, guid: 77d4609bc5a8757418d02fa57ca25e45,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2374390852312327234}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77d4609bc5a8757418d02fa57ca25e45, type: 3}
---- !u!1 &2969149819756041437 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3938487928886459066, guid: 77d4609bc5a8757418d02fa57ca25e45,
-    type: 3}
-  m_PrefabInstance: {fileID: 2277937267232845415}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &2374390852312327234
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2969149819756041437}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.8748401, y: 1.3559405, z: 0.6250111}
-  m_Center: {x: 0.942849, y: -0.0051407213, z: -0.003490582}

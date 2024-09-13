@@ -93,121 +93,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stolica2
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: dc384dc8821c0004eac8f4118cb60898,
-        type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 4321514657177891973, guid: dc384dc8821c0004eac8f4118cb60898,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 90157923234c9174a8c9d55990023a6d, type: 2}
-    - target: {fileID: 4767400413853537203, guid: dc384dc8821c0004eac8f4118cb60898,
-        type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8009987137999418058, guid: dc384dc8821c0004eac8f4118cb60898,
-        type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dc384dc8821c0004eac8f4118cb60898,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6025873588311703507}
-    - targetCorrespondingSourceObject: {fileID: 8009987137999418058, guid: dc384dc8821c0004eac8f4118cb60898,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5072198820411251370}
-    - targetCorrespondingSourceObject: {fileID: 4767400413853537203, guid: dc384dc8821c0004eac8f4118cb60898,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5338592174733231994}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc384dc8821c0004eac8f4118cb60898, type: 3}
---- !u!1 &2098608658687099786 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8009987137999418058, guid: dc384dc8821c0004eac8f4118cb60898,
-    type: 3}
-  m_PrefabInstance: {fileID: 8230031073870721344}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &5072198820411251370
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2098608658687099786}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.46198666, y: 0.4211573, z: 0.35931668}
-  m_Center: {x: 0.00000166893, y: 0.21019801, z: -0.11039834}
---- !u!1 &3467706579119760115 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4767400413853537203, guid: dc384dc8821c0004eac8f4118cb60898,
-    type: 3}
-  m_PrefabInstance: {fileID: 8230031073870721344}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &5338592174733231994
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3467706579119760115}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.3226639, y: 0.11527921, z: 0.4055351}
-  m_Center: {x: 0.00000166893, y: -0.0332566, z: -0.53236073}
---- !u!1 &9148948817183280145 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: dc384dc8821c0004eac8f4118cb60898,
-    type: 3}
-  m_PrefabInstance: {fileID: 8230031073870721344}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &6025873588311703507
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9148948817183280145}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.3226639, y: 0.11527916, z: 0.40553516}
-  m_Center: {x: -0.00000020116569, y: 0.28584316, z: -0.050912097}
