@@ -19,11 +19,6 @@ public class SceneController : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-
-        else
-        {
-            Destroy(gameObject);
-        }
     }
 
     private void Start()
@@ -33,7 +28,7 @@ public class SceneController : MonoBehaviour
         {
             buttons[i].interactable = false;
         }
-
+        
         for (int i = 0; i < unlockedLevel; i++)
         {
             buttons[i].interactable = true;

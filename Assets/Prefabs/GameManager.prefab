@@ -895,6 +895,7 @@ GameObject:
   - component: {fileID: 7546376201941867803}
   - component: {fileID: 5171666475834814989}
   - component: {fileID: 7783652549435183711}
+  - component: {fileID: 7698068608265797858}
   m_Layer: 5
   m_Name: SoundPanelButton
   m_TagString: Untagged
@@ -1027,6 +1028,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7698068608265797858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1787407821369178449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38045fbf6a184644aa81277b66a27c1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1885154560169081421
 GameObject:
   m_ObjectHideFlags: 0
@@ -2186,6 +2199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de10e569fd25e848a076be4c1af42bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttons: []
   transitionAnim: {fileID: 7533733534147174458}
 --- !u!114 &8674340844613529566
 MonoBehaviour:
