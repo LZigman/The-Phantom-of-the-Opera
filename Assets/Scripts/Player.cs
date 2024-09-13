@@ -1,3 +1,4 @@
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
@@ -159,11 +160,17 @@ public class Player : MonoBehaviour
 
     private void Rotation()
     {
-        if (movementDirection != Vector3.zero)
-            targetForwardDirection = movementDirection - Vector3.down;
+        //if (movementDirection != Vector3.zero)
+        //    targetForwardDirection = movementDirection - Vector3.down;
 
-        rb.rotation = Quaternion.Slerp
-            (rb.rotation, Quaternion.LookRotation(targetForwardDirection), Time.deltaTime * rotationSpeed);
+        //rb.rotation = Quaternion.Slerp
+        //    (rb.rotation, Quaternion.LookRotation(targetForwardDirection), Time.deltaTime * rotationSpeed);
+
+        if (movementDirection == Vector3.zero)
+            return;
+
+        Quaternion newRot = Quaternion.LookRotation(movementDirection);
+        transform.rotation = Quaternion.Lerp(transform.rotation, newRot, rotationSpeed * Time.deltaTime);
     }
 
     #endregion
