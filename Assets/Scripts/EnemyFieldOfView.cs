@@ -155,13 +155,20 @@ public class EnemyFieldOfView : MonoBehaviour
 
     private void CheckDisguise(Transform player)
     {
-        PlayerMorfing scriptPlayer = player.GetComponent<PlayerMorfing>();
-        Rigidbody pRb = player.GetComponent<Rigidbody>();
+        //Rigidbody pRb = player.GetComponent<Rigidbody>();
+        //if(pRb.velocity.magnitude > velocityThreshold)
+        //    noticeMovement = true;
+        //if (pRb.velocity.magnitude <= velocityThreshold)
+        //    ResetNotice();
 
-        if(pRb.velocity.magnitude > velocityThreshold)
+        PlayerMorfing scriptPlayer = player.GetComponent<PlayerMorfing>();
+        Player scriptPlayerMain = player.GetComponent<Player>();
+
+        if (scriptPlayerMain.movementDirection.magnitude > velocityThreshold)
             noticeMovement = true;
-        if (pRb.velocity.magnitude <= velocityThreshold)
+        if (scriptPlayerMain.movementDirection.magnitude <= velocityThreshold)
             ResetNotice();
+
         if (scriptPlayer.currentDisguise == DisguiseType.Undisguised || scriptPlayer.currentDisguise == disguiseIRecognize || noticeMovement)
         {
             noticeTimer += viewFrequency;

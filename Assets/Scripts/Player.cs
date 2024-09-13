@@ -6,9 +6,9 @@ public class Player : MonoBehaviour
 {
     private Vector2 inputAmount;
     private Vector3 targetForwardDirection;
-    private Vector3 movementDirection;
-    private Vector3 smoothInputMovement;
-    private float xRot;
+    public Vector3 movementDirection;
+    //private Vector3 smoothInputMovement;
+    //private float xRot;
     private bool onGround;
     private bool isSprinting, isCrouching;
 
@@ -53,10 +53,10 @@ public class Player : MonoBehaviour
     {
         // read the value for the "move" action each event call
         inputAmount = context.ReadValue<Vector2>();
-        //movementDirection = new Vector3(inputAmount.x, rb.velocity.y, inputAmount.y);
-        movementDirection = inputAmount.y * cameraTransform.up + inputAmount.x * cameraTransform.right/* + Vector3.down*/;
-        
-        Debug.Log("movementDirection = " + movementDirection);
+        movementDirection = new Vector3(inputAmount.x, 0, inputAmount.y);
+        //movementDirection = inputAmount.y * cameraTransform.up + inputAmount.x * cameraTransform.right/* + Vector3.down*/;
+
+        //Debug.Log("movementDirection = " + movementDirection);
         AudioManager.Instance.PlaySfx("Walk");
     }
     
@@ -140,7 +140,8 @@ public class Player : MonoBehaviour
         //Animation
         float moveAmount = Mathf.Clamp01(Mathf.Abs(inputAmount.x) + Mathf.Abs(inputAmount.y));
         //animator.SetFloat(Move, moveAmount);
-        animator.SetFloat("speed", rb.velocity.magnitude);
+        //animator.SetFloat("speed", rb.velocity.magnitude);
+        animator.SetFloat("speed", moveAmount * moveSpeed);
     }
 
     #endregion
@@ -149,11 +150,11 @@ public class Player : MonoBehaviour
 
     private void Movement()
     {
-        //rb.position += movementDirection * (moveSpeed * Time.fixedDeltaTime);
+        rb.position += movementDirection * (moveSpeed * Time.fixedDeltaTime);
 
-      //  rb.velocity = movementDirection * moveSpeed;
-        rb.velocity = new Vector3(movementDirection.x * moveSpeed, -1, movementDirection.z * moveSpeed);
-        Debug.Log($"{rb.velocity}");
+        //  rb.velocity = movementDirection * moveSpeed;
+        //rb.velocity = new Vector3(movementDirection.x * moveSpeed, -1, movementDirection.z * moveSpeed);
+        //Debug.Log($"{rb.velocity}");
     }
 
     private void Rotation()
