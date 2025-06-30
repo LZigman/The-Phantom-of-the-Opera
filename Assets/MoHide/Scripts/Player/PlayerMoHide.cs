@@ -64,8 +64,8 @@ public class PlayerMoHide : MonoBehaviour
     {
         Vector3 velocityDir = moveDirection * moveSpeed;
 
-        velocityDir.y = rb.velocity.y;
-        rb.velocity = velocityDir;
+        velocityDir.y = rb.linearVelocity.y;
+        rb.linearVelocity = velocityDir;
     }
 
     private void RotationNormal(Vector3 rotationDirection)

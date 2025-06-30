@@ -120,7 +120,7 @@ namespace KeyMouse.MoHide
             previousObject.gameObject.SetActive(false);
 
             // Save old object velocity
-            Vector3 velocity = previousObject.GetComponent<Rigidbody>().velocity;
+            Vector3 velocity = previousObject.GetComponent<Rigidbody>().linearVelocity;
 
             // Destroy target object select effect
             targetObject.GetComponent<HideObject>().DestroySelectEffect();
@@ -141,7 +141,7 @@ namespace KeyMouse.MoHide
             hideObject.InitializeHideObject(CameraTransform, freezeRotationKey);
 
             // Set old object velocity
-            clonedObject.GetComponent<Rigidbody>().velocity = velocity;
+            clonedObject.GetComponent<Rigidbody>().linearVelocity = velocity;
 
             // Set current object
             currentObject = clonedObject.transform;

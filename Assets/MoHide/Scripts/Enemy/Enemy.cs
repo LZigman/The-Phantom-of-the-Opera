@@ -138,7 +138,7 @@ public class Enemy : MonoBehaviour
 
     private bool IsPropMoving()
     {
-        return _target.GetComponent<HideObject>() && _target.GetComponent<Rigidbody>().velocity.magnitude > 0.5f;
+        return _target.GetComponent<HideObject>() && _target.GetComponent<Rigidbody>().linearVelocity.magnitude > 0.5f;
     }
 
 }
